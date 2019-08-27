@@ -1,0 +1,29 @@
+language: java
+jdk:
+- openjdk8
+
+#branches:
+#  only:
+#   - master
+
+
+notifications:
+  email:
+    recipients:
+    - magzhan.karasayev@allpay.kz
+    - sanzhar.aubakirov@innoforce.kz
+    on_success: change
+    on_failure: always
+
+install: mvn clean install -B -V
+
+deploy:
+  provider: releases
+  api_key:
+    secure: g6H0ap2mQr1GIKD2XzQuTD77xXpjhtZMzPK9rVf9Th7epAdcCLeNqn1wg78U1wnxNU28MTQjJB3YBlG9AAOxV/0zF9QIgU/3DgvhrC4lvL6Q/lymx+uE0aIWwitq1wzzDUUCLks92OdXvpWKgPE+ppaB2GI/LadUNc237qKA6tkf6tUTSRVZHWReZgTz3eqFRIxjHsHk7PIJQDhHxoThCkA8Fc/5loEpW2lJUASSS0lfsuNHOaqB40VLaf/kdBZCHEP6Dl7gJ/5gqcWGE2FSLpiu6edJcmpYP6VwLqWis+CvzdRRjMKeK4MGQQUwMvs2N1WSLr6R1JPnMgC5Tz5wQBRp0dEREtO1eufFBTBmp/eJgNU2BNT6o8QGO4Tvuuffo8rIRItGyxicKCECMT5PSX2/M71NQ0X+oFIw8TVGNJerzNzeY98ziftHCnn6mGoUJLNuBzYhqTxWUg1555w0/echFe4mXlApGiVgvDxr3ugsfLX+WoWvagGKMd26dbcQPH8iEHTOHkh5VLm5/GFAaDhLO1dEe7Ct37jKjjKjxvD+vQwcXSRB18P+9XAMY0sEvGY5Vw/MPmJQoPk8kHpPSFO/WnPBWGmkqhmJCw6TR+RmLQiJoNDpK5K2phLzwqoz+ypf8Wv6ZlSa7JeJCRcgS7dMiak5CMm2VXjBw4hU/Lc=
+  file: target/epay-stub.jar
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: Softrack-LLP/epay-stub
+#    branch: test
