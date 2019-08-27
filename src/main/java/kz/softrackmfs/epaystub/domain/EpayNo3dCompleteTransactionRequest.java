@@ -15,15 +15,6 @@ import java.util.Date;
 
 public class EpayNo3dCompleteTransactionRequest {
 
-    private static String template = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-            "<document><error input=\"\" payment=\"\" system=\"\"/>" +
-            "<request Signed_Order_B64=\"VAR_BASE64ORDER\"/>" +
-            "<payment ActionTime=\"VAR_ACTION_TIME\" MerchantID=\"VAR_MERCHANT_ID\" " +
-            "OrderId=\"VAR_ORDER_ID\" OrderAL=\"null\" " +
-            "amount=\"VAR_AMOUNT\" Result=\"00\" Reference=\"VAR_REFERENCE\" " +
-            "type=\"21\" message=\"Approved\"/></document>";
-
-
     private final ParsedDocument document;
     private String base64Input;
     private Date date;
@@ -35,7 +26,7 @@ public class EpayNo3dCompleteTransactionRequest {
         this.date = new Date();
     }
 
-    public String generateResponse() {
+    public String generateResponse(String template) {
         return template
                 .replaceAll("VAR_BASE64ORDER", base64Input)
                 .replaceAll("VAR_ACTION_TIME", getFormattedDate())
@@ -71,11 +62,4 @@ public class EpayNo3dCompleteTransactionRequest {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
 
-    public static String getTemplate() {
-        return template;
-    }
-
-    public static void setTemplate(String template) {
-        EpayNo3dCompleteTransactionRequest.template = template;
-    }
 }
