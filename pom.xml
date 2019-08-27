@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>kz.softrackmfs</groupId>
 	<artifactId>epay-stub</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>epay-stub</name>
 	<description>Epay stubbing service</description>
 
