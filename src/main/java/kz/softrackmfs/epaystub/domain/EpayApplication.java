@@ -1,8 +1,11 @@
 package kz.softrackmfs.epaystub.domain;
 
+import kz.softrackmfs.epaystub.domain.utils.ActionLog;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -35,6 +38,8 @@ public class EpayApplication {
             "<item MerchantID=\"VAR_MERCHANT_ID\" HBID=\"VAR_ABONENT_ID\" CardID=\"900000015420\" CardMask=\"440540-xx-xxxx-0846\" e_mm=\"01\" e_yy=\"14\" approve=\"0\" reference=\"180919184238\" card_kkb=\"no\"/>" +
             "</cards>" +
             "</document>";
+
+    private ActionLog actionLog = new ActionLog();
 
     private static final Map<String, EpayApplication> apps = new HashMap<>();
 
@@ -88,15 +93,19 @@ public class EpayApplication {
     }
 
     public String generateCreateResponse(String content) {
-        return new EpayNo3dCreateTransactionRequest(content).generateResponse(getCreateTemplate());
+        return new EpayNo3dCreateTransactionRequest(content).generateResponse(getCreateTemplate(), actionLog);
     }
 
     public String generateCompleteResponse(String content) {
-        return new EpayNo3dCompleteTransactionRequest(content).generateResponse(getCompleteTemplate());
+        return new EpayNo3dCompleteTransactionRequest(content).generateResponse(getCompleteTemplate(), actionLog);
     }
 
     public String generateCardListResponse(String xml) {
         logger.info("getting xml =  " + xml);
-        return new EpayCardListRequest(xml).generateResponse(cardListTemplate);
+        return new EpayCardListRequest(xml).generateResponse(cardListTemplate, actionLog);
+    }
+
+    public String getActionLog() {
+        return actionLog.getAsString();
     }
 }

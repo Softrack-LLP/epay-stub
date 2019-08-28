@@ -61,6 +61,11 @@ public class EpayController {
         return "Done";
     }
 
+    @GetMapping("/{app}/stats/actionLog")
+    public String printActionLog(@PathVariable("app") String app) {
+        return EpayApplication.getApplication(app).getActionLog();
+    }
+
 
     @PostMapping("/{app}/jsp/hbpay/trans.jsp")
     public String pay(@PathVariable("app") String app, @RequestBody String content, HttpServletRequest request) {
@@ -74,7 +79,7 @@ public class EpayController {
         return EpayApplication.getApplication(app).generateCompleteResponse(content);
     }
 
-    @GetMapping("/{app}/jsp/hbpay/control.jsp")
+    @RequestMapping(value = "/{app}/jsp/hbpay/control.jsp", method = { RequestMethod.GET, RequestMethod.POST })
     public String control(@PathVariable("app") String app, HttpServletRequest request) {
         String xml = request.getParameterMap().entrySet().iterator().next().getKey();
         delayer.waitForDelay(request.getRequestURI());

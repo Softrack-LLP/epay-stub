@@ -22,5 +22,11 @@ Endpoints 'localhost:8080/local' can be used as an endpoint providing the follow
 Setting delays in milliseconds:
 
 ```
-curl localhost:8080/manage/delay/{500} -H 'Content-Type: application/plan' -d'/local/jsp/hbpay/trans.jsp'
+curl localhost:8080/manage/delay/500 -H 'Content-Type: application/plan' -d'/local/jsp/hbpay/trans.jsp'
+```
+
+Stats:
+
+```
+curl localhost:8080/local/stats/actionLog
 ```

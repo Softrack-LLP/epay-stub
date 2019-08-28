@@ -1,7 +1,9 @@
 package kz.softrackmfs.epaystub.domain;
 
+import kz.softrackmfs.epaystub.domain.utils.ActionLog;
 import kz.softrackmfs.epaystub.domain.utils.ParsedDocument;
 
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
@@ -12,14 +14,16 @@ public class EpayNo3dCreateTransactionRequest {
     private String base64Input;
     private Date date;
 
-    public EpayNo3dCreateTransactionRequest(String base64Input) {
+    public EpayNo3dCreateTransactionRequest(String encoded) {
+        String base64Input = URLDecoder.decode(encoded);
         this.base64Input = base64Input;
         String decoded = new String(Base64.getDecoder().decode(base64Input.replaceAll("Signed_Order_B64=", "")));
         this.document = new ParsedDocument(decoded);
         this.date = new Date();
     }
 
-    public String generateResponse(String template) {
+    public String generateResponse(String template, ActionLog actionLog) {
+        actionLog.write(getOrderId(), "createNo3dTransaction");
         return template
                 .replaceAll("VAR_BASE64ORDER", base64Input)
                 .replaceAll("VAR_ACTION_TIME", getFormattedDate())
