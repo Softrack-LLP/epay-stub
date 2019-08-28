@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:mark.jay.mk@gmail.com">mark jay</a>
@@ -42,6 +44,17 @@ public class EpayController {
         return EpayApplication.getApplication(app).setNewCompleteTemplate(content);
     }
 
+    @GetMapping("/{app}/manage/templates/cardList")
+    public String getCardListTemplate(@PathVariable("app") String app) {
+        return EpayApplication.getApplication(app).getCardListTemplate();
+    }
+
+    @PostMapping("/{app}/manage/templates/cardList")
+    public String setCardListTemplate(@PathVariable("app") String app, @RequestBody String content) {
+        return EpayApplication.getApplication(app).setNewCardListTemplate(content);
+    }
+
+
     @PostMapping("/manage/delay/{delay}")
     public String setCompleteTemplate(@PathVariable("delay") Long delay, @RequestBody String path) {
         delayer.setDelay(path, delay);
@@ -59,6 +72,13 @@ public class EpayController {
     public String confirm(@PathVariable("app") String app, @RequestBody String content, HttpServletRequest request) {
         delayer.waitForDelay(request.getRequestURI());
         return EpayApplication.getApplication(app).generateCompleteResponse(content);
+    }
+
+    @GetMapping("/{app}/jsp/hbpay/control.jsp")
+    public String control(@PathVariable("app") String app, HttpServletRequest request) {
+        String xml = request.getParameterMap().entrySet().iterator().next().getKey();
+        delayer.waitForDelay(request.getRequestURI());
+        return EpayApplication.getApplication(app).generateCardListResponse(xml);
     }
 
 }
